@@ -63,7 +63,7 @@ export function ProductCard({ product }: { product: Product }) {
           <span className="h-px flex-1 bg-border" />
         </div>
 
-        <div className="grid grid-cols-3 gap-1">
+        <div className="hidden grid-cols-3 gap-1 sm:grid">
           {FEATURES.map(({ label, icon: Icon }) => (
             <div key={label} className="flex flex-col items-center gap-1">
               <Icon className="h-5 w-5 text-accent" />
@@ -72,20 +72,20 @@ export function ProductCard({ product }: { product: Product }) {
           ))}
         </div>
 
-        <div className="mt-4 border-t border-border pt-3" />
+        <div className="mt-4 hidden border-t border-border pt-3 sm:block" />
 
-        <div className="flex items-center justify-between gap-2">
+        <div className="mt-auto flex items-center justify-between gap-2">
           <div className="text-left">
-            <p className="text-xl font-extrabold text-foreground">{formatPrice(effectivePrice)}</p>
+            <p className="text-lg font-extrabold text-foreground">{formatPrice(effectivePrice)}</p>
             <p className="text-[10px] text-muted">(incl. of tax)</p>
           </div>
           <WhatsAppOrderButton
             productName={product.name}
             price={effectivePrice}
-            className="inline-flex items-center gap-1.5 rounded-full border border-accent px-3.5 py-2 text-[11px] font-bold uppercase tracking-wide text-accent transition hover:bg-accent hover:text-accent-foreground"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center gap-1.5 rounded-full border border-accent text-accent transition hover:bg-accent hover:text-accent-foreground sm:h-auto sm:w-auto sm:px-3 sm:py-2"
           >
-            <Image src="/whatsapp.png" alt="" width={14} height={14} className="h-3.5 w-3.5" />
-            Order Now
+            <Image src="/whatsapp.png" alt="Order on WhatsApp" width={16} height={16} className="h-4 w-4 shrink-0" />
+            <span className="hidden text-[10px] font-bold uppercase tracking-wide sm:inline">Order Now</span>
           </WhatsAppOrderButton>
         </div>
       </div>
