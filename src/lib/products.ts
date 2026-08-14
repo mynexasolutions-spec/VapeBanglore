@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import type { Product, ProductCategory, ProductTag, ProductStatus, ProductVariant, ProductImage } from "@/lib/types";
+import type { Product, ProductCategory, ProductTag, ProductStatus, ProductSpecification, ProductVariant, ProductImage } from "@/lib/types";
 import { VAPE_CATALOG } from "@/lib/vape-catalog";
 
 const PRODUCT_SELECT = "*, variants:product_variants(*), images:product_images(*)";
@@ -10,6 +10,8 @@ interface ProductRow {
   name: string;
   category: ProductCategory;
   description: string | null;
+  highlights: string[];
+  specifications: ProductSpecification[];
   base_price: number;
   sale_price: number | null;
   tags: ProductTag[];

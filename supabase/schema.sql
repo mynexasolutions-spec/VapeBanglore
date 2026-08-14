@@ -21,6 +21,8 @@ create table products (
   name text not null,
   category product_category not null,
   description text,
+  highlights text[] not null default '{}',
+  specifications jsonb not null default '[]'::jsonb,
   base_price numeric(10,2) not null check (base_price >= 0),
   sale_price numeric(10,2) check (sale_price >= 0 and sale_price <= base_price),
   tags product_tag[] not null default '{}',

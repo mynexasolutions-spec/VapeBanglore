@@ -22,12 +22,19 @@ export interface ProductImage {
   sort_order: number;
 }
 
+export interface ProductSpecification {
+  label: string;
+  value: string;
+}
+
 export interface Product {
   id: string;
   slug: string;
   name: string;
   category: ProductCategory;
   description: string | null;
+  highlights: string[];
+  specifications: ProductSpecification[];
   base_price: number;
   sale_price: number | null;
   tags: ProductTag[];

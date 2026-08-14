@@ -20,6 +20,11 @@ const imageSchema = z.object({
   format: z.string().nullable(),
 });
 
+const specificationSchema = z.object({
+  label: z.string().min(1, "Spec label is required"),
+  value: z.string().min(1, "Spec value is required"),
+});
+
 const productInputSchema = z.object({
   name: z.string().min(1, "Name is required"),
   slug: z
@@ -28,6 +33,8 @@ const productInputSchema = z.object({
     .regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Slug must be lowercase, hyphen-separated"),
   category: z.enum(["vape"]),
   description: z.string().nullable(),
+  highlights: z.array(z.string().min(1)),
+  specifications: z.array(specificationSchema),
   base_price: z.number().min(0),
   sale_price: z.number().min(0).nullable(),
   tags: z.array(z.enum(["trending", "bestseller", "new-arrival"])),
@@ -61,6 +68,8 @@ export async function createProduct(input: ProductInput): Promise<{ error?: stri
       slug: data.slug,
       category: data.category,
       description: data.description,
+      highlights: data.highlights,
+      specifications: data.specifications,
       base_price: data.base_price,
       sale_price: data.sale_price,
       tags: data.tags,
@@ -101,6 +110,8 @@ export async function updateProduct(id: string, input: ProductInput): Promise<{ 
       slug: data.slug,
       category: data.category,
       description: data.description,
+      highlights: data.highlights,
+      specifications: data.specifications,
       base_price: data.base_price,
       sale_price: data.sale_price,
       tags: data.tags,

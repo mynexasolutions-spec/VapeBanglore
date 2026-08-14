@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { slugify } from "@/lib/format";
-import type { Product, ProductTag } from "@/lib/types";
+import type { Product, ProductSpecification, ProductTag } from "@/lib/types";
 import { VariantEditor, type VariantRow } from "./VariantEditor";
+import { HighlightsEditor } from "./HighlightsEditor";
+import { SpecificationsEditor } from "./SpecificationsEditor";
 import { ImageUploader, type UploadedImage } from "./ImageUploader";
 import type { ProductInput } from "@/app/admin/(protected)/products/actions";
 
@@ -26,6 +28,8 @@ export function ProductForm({ mode, product, onSubmit }: ProductFormProps) {
   const [slug, setSlug] = useState(product?.slug ?? "");
   const [slugTouched, setSlugTouched] = useState(mode === "edit");
   const [description, setDescription] = useState(product?.description ?? "");
+  const [highlights, setHighlights] = useState<string[]>(product?.highlights ?? []);
+  const [specifications, setSpecifications] = useState<ProductSpecification[]>(product?.specifications ?? []);
   const [basePrice, setBasePrice] = useState(product?.base_price?.toString() ?? "");
   const [salePrice, setSalePrice] = useState(product?.sale_price?.toString() ?? "");
   const [tags, setTags] = useState<ProductTag[]>(product?.tags ?? []);
@@ -59,6 +63,10 @@ export function ProductForm({ mode, product, onSubmit }: ProductFormProps) {
       slug,
       category: "vape",
       description: description || null,
+      highlights: highlights.map((h) => h.trim()).filter(Boolean),
+      specifications: specifications
+        .map((s) => ({ label: s.label.trim(), value: s.value.trim() }))
+        .filter((s) => s.label && s.value),
       base_price: Number(basePrice),
       sale_price: salePrice === "" ? null : Number(salePrice),
       tags,
@@ -168,6 +176,10 @@ export function ProductForm({ mode, product, onSubmit }: ProductFormProps) {
           ))}
         </div>
       </div>
+
+      <HighlightsEditor highlights={highlights} onChange={setHighlights} />
+
+      <SpecificationsEditor specifications={specifications} onChange={setSpecifications} />
 
       <VariantEditor variants={variants} onChange={setVariants} />
 
